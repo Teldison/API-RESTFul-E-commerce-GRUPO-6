@@ -82,6 +82,10 @@ public class Endereco {
 		public void setCliente(Cliente cliente) {
 			this.cliente = cliente;
 		}
+		public Object toEntity() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
 		
 		

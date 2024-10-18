@@ -44,4 +44,9 @@ public class PedidoService {
 		  return Optional.of(PedidoDto.toDto(pedidoEntity));
 	}
 
+	public Optional<PedidoDto> alterarPedido(Long id, PedidoDto dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -6,8 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "pedidoitem")
 public class PedidoItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +23,10 @@ public class PedidoItem {
 	@ManyToOne
 	@JoinColumn(name = "id_pedido")
 	private Pedido pedido;
+	@ManyToOne
+	@JoinColumn(name = "id_livro")
+	private Livro livro;
+	
 
 	public Long getId() {
 		return id;
