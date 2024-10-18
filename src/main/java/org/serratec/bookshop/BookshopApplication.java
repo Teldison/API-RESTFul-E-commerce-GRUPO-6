@@ -20,7 +20,6 @@ public class BookshopApplication {
 	    public RestTemplate restTemplate() {
 	        return new RestTemplate();
 	    }
-
 }
 	
 }

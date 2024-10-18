@@ -1,4 +1,4 @@
-package org.serratec.bookshop.controler;
+package org.serratec.bookshop.controller;
 
 import java.util.List;
 import java.util.Optional;
