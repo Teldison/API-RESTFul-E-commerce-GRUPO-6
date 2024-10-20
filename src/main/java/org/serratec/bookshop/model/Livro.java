@@ -1,11 +1,13 @@
 package org.serratec.bookshop.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,7 +25,10 @@ public class Livro {
 	private String sinopse;
 	private int anoLancamento;
 	private Double valor_unitario;
-	private Long id_categoria;	
+	private Long id_categoria;
+	
+	@OneToMany(mappedBy = "livro")
+	private List<PedidoItem> pedidosItem;
 	
 	public Long getId() {
 		return id;	

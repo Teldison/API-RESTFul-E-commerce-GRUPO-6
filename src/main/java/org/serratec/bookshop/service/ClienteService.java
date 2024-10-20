@@ -48,4 +48,9 @@ public class ClienteService {
 		return Optional.of(ClienteDto.toDto(clienteEntity));
 	}
 	
+	public ClienteDto buscarPorIdPedido(Long id) {
+        Cliente cliente = repositorio.findById(id)
+            .orElseThrow(() -> new RuntimeException("Id do Pedido não encontrado"));
+        return ClienteDto.toDto(cliente);
+    }
 }

@@ -35,7 +35,7 @@ public class PedidoService {
 		return true;
 	}
 	
-	public Optional<PedidoDto> alterarCandidato(Long id, PedidoDto dto) {
+	public Optional<PedidoDto> alterarPedido(Long id, PedidoDto dto) {
 		if(!repositorio.existsById(id)) {
 			return Optional.empty();
 		} Pedido pedidoEntity = dto.toEntity();
@@ -43,10 +43,4 @@ public class PedidoService {
 		  repositorio.save(pedidoEntity);
 		  return Optional.of(PedidoDto.toDto(pedidoEntity));
 	}
-
-	public Optional<PedidoDto> alterarPedido(Long id, PedidoDto dto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

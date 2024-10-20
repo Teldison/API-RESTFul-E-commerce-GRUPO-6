@@ -47,12 +47,10 @@ public class ViaCepService {
     }
 
 	public Optional<EnderecoDto> alterarEndereco(Long id, EnderecoDto dto) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public boolean apagarEndereco(Long id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
