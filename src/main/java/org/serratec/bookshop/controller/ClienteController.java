@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
@@ -32,12 +36,24 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/pedido/{id}")
+	@Operation(summary = "Retorna um cliente por id",
+	description = "Dado um determinado número de id do pedido, será retornado o cliente")
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "Não foi encontrado o Cliente pelo id do pedido informado. Verifique!"),
+            @ApiResponse(responseCode = "200", description = "Cliente localizado")
+    })
     public ResponseEntity<ClienteDto> buscarClientePorIdPedido(@PathVariable Long id) {
         ClienteDto cliente = servico.buscarPorIdPedido(id);
 		return ResponseEntity.ok(cliente); 
     }
 	
 	@GetMapping("/{id}")
+	@Operation(summary = "Retorna um cliente por id",
+	description = "Dado um número de id retorna um cliente")
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "Não foi encontrado o Cliente pelo id informado. Verifique!"),
+            @ApiResponse(responseCode = "200", description = "Cliente localizado")
+    })
 	public ResponseEntity<ClienteDto> obterPorId (@PathVariable Long id) {
 		Optional<ClienteDto> dto = servico.obterPorId(id);
 		if (!dto.isPresent()) {
@@ -47,12 +63,24 @@ public class ClienteController {
 	}
 	
 	@PostMapping 
+	@Operation(summary = "Registra um cliente",
+	description = "Dado um determinado número de id, será retornado o cliente contendo as informações")
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "Não foi registrado o Cliente desejado. Verifique!"),
+            @ApiResponse(responseCode = "200", description = "Cliente registrado")
+    })
 	@ResponseStatus(HttpStatus.CREATED)
 	public ClienteDto cadastrarPedido(@RequestBody ClienteDto dto) {
 		return servico.salvarCliente(dto);
 	}
 	
 	@DeleteMapping("/{id}")
+	@Operation(summary = "Apagar um cliente por id",
+	description = "apaga o registro de um cliente")
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "Não foi deletado o Cliente desejado. Verifique!"),
+            @ApiResponse(responseCode = "200", description = "Cliente deletado")
+    })
 	public ResponseEntity<Void> deletaCliente(@PathVariable Long id){
 		if(!servico.apagarCliente(id)) {
 			return ResponseEntity.notFound().build();
@@ -61,6 +89,12 @@ public class ClienteController {
 	}
 	
 	@PutMapping("/{id}")
+	@Operation(summary = "Altera o cliente por id",
+	description = "altera o registro de um cliente")
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "Não foi alterado o Cliente desejado. Verifique!"),
+            @ApiResponse(responseCode = "200", description = "Cliente alterado")
+    })
 	public ResponseEntity<ClienteDto> alterarCliente(@PathVariable Long id, @RequestBody ClienteDto dto){
 		Optional<ClienteDto> clienteAlterado = servico.alterarCliente(id, dto);
 		if (!clienteAlterado.isPresent()) {
