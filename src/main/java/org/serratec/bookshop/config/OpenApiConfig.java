@@ -1,4 +1,4 @@
-package org.serratec.bookshop;
+package org.serratec.bookshop.config;
 
 import org.springframework.context.annotation.Configuration;
 

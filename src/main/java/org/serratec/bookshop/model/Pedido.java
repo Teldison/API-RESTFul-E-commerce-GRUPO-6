@@ -75,7 +75,10 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 	
-	
-	
-
+	@Override
+	public String toString() {
+		return "Pedido = " + id + ", dataPedido = " + dataPedido + ", dataEntrega = " + dataEntrega + ", dataEnvio = "
+				+ dataEnvio + ", status = " + status + ", valorTotal = R$ " + valorTotal + ", cliente = " + cliente
+				+ ", pedidosItem = " + pedidosItem + "]";
+	}
 }

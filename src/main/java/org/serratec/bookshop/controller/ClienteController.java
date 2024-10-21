@@ -32,7 +32,6 @@ public class ClienteController {
 	@GetMapping
 	public List<ClienteDto> obterTodos() {
 		return servico.obterTodos();
-		
 	}
 	
 	@GetMapping("/pedido/{id}")
