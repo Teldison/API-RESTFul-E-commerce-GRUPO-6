@@ -7,7 +7,5 @@ CREATE TABLE livro (
     data_cadastro DATE NOT NULL,
     sinopse TEXT,
     ano_lancamento INT,
-    valor_unitario NUMERIC(8, 2),
-    id_categoria INT,
-    FOREIGN KEY (id_categoria) REFERENCES categoria(id)
+    valor_unitario NUMERIC(8, 2)
 )

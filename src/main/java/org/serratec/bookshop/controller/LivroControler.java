@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
-@RequestMapping("/livro")
+@RequestMapping("/livros")
 public class LivroControler {
 	@Autowired
 	private LivroService servico;

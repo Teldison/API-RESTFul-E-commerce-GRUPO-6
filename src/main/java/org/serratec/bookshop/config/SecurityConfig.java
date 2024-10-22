@@ -24,7 +24,26 @@ public class SecurityConfig {
 		
 		http.authorizeHttpRequests(authorize -> authorize
 		.requestMatchers(HttpMethod.GET, "/pedidos").permitAll()
-		.requestMatchers(HttpMethod.POST, "/pedidos").hasRole("ADM"))
+		.requestMatchers(HttpMethod.GET, "/pedidos/{id}").permitAll()
+		.requestMatchers(HttpMethod.POST, "/pedidos").hasRole("ADM")
+		.requestMatchers(HttpMethod.DELETE, "/pedidos/{id}").hasAnyRole("ADM")
+		.requestMatchers(HttpMethod.PUT, "/pedidos/{id}").hasRole("ADM")
+		
+		.requestMatchers(HttpMethod.GET, "/livros").permitAll()
+		.requestMatchers(HttpMethod.GET, "/livros/{id}").permitAll()
+		.requestMatchers(HttpMethod.GET, "/livros/nome/{nome}").permitAll()
+		.requestMatchers(HttpMethod.POST, "/livros").hasRole("ADM")
+		.requestMatchers(HttpMethod.DELETE, "/livros/{id}").hasRole("ADM")
+		.requestMatchers(HttpMethod.PUT, "/livros/{id}").hasRole("ADM")
+		
+		.requestMatchers(HttpMethod.GET, "/clientes").permitAll()
+		.requestMatchers(HttpMethod.GET, "/clientes/{id}").permitAll()
+		.requestMatchers(HttpMethod.GET, "/clientes/pedido/{id}").permitAll()
+		.requestMatchers(HttpMethod.POST, "/clientes").hasRole("ADM")
+		.requestMatchers(HttpMethod.DELETE, "/clientes/{id}").hasRole("ADM")
+		.requestMatchers(HttpMethod.PUT, "/clientes/{id}").hasRole("ADM")
+		.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+		.anyRequest().authenticated())
 		.csrf(csrf -> csrf.disable())
 		.httpBasic(Customizer.withDefaults());
 		
@@ -40,7 +59,7 @@ public class SecurityConfig {
 		
 		UserDetails usuario2 = User.builder()
 				.username("rh")
-				.password(encoder().encode("1234"))
+				.password(encoder().encode("12345"))
 				.roles("RH").build();
 		
 		return new InMemoryUserDetailsManager(usuario, usuario2);

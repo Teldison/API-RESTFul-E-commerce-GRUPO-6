@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface LivroRepository extends JpaRepository<Livro, Long> {
-	List<Livro> findByNomeIgnoreCase(String none);
+	List<Livro> findByNomeIgnoreCase(String nome);
 	List<Livro> findByAutorIgnoreCase(String autor);
 	List<Livro> findByEditoraIgnoreCase(String editora);
 }

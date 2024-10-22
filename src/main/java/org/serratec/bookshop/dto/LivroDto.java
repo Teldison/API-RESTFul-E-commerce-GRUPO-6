@@ -2,6 +2,7 @@ package org.serratec.bookshop.dto;
 
 import java.time.LocalDate;
 
+import org.serratec.bookshop.model.Categoria;
 import org.serratec.bookshop.model.Livro;
 
 public record LivroDto(
@@ -14,7 +15,7 @@ public record LivroDto(
 		String sinopse,
 		int anoLancamento,
 		Double valor_unitario,
-		Long id_categoria
+		Categoria categoria
 		) {
 	
 	public Livro toEntity() { 
@@ -28,7 +29,7 @@ public record LivroDto(
 		livro.setSinopse(this.sinopse);
 		livro.setAnoLancamento(this.anoLancamento);
 		livro.setValor_unitario(this.valor_unitario);
-		livro.setId_categoria(this.id_categoria);
+		livro.setCategoria(this.categoria);
 		
        return livro;
 	}
@@ -36,7 +37,7 @@ public record LivroDto(
 	public static LivroDto toDto(Livro livro) { 
 		return new LivroDto(livro.getId(), livro.getNome(), livro.getAutor(),livro.getEditora(), 
 				livro.getQnt_estoque(), livro.getData_cadastro(), livro.getSinopse(), 
-				livro.getAnoLancamento(), livro.getValor_unitario(), livro.getId_categoria());
+				livro.getAnoLancamento(), livro.getValor_unitario(), livro.getCategoria());
 				
 	}
 	
