@@ -3,8 +3,7 @@
 Bem-vindo ao **BookShop**, um e-commerce desenvolvido para a compra e venda de livros digitais, criado como parte do Projeto Final da disciplina de **API RESTful** da **Residência de Software**.
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/badges/shields?style=plastic)
-![GitHub contributors](https://img.shields.io/github/contributors/badges/shields?style=plastic)
-![GitHub stars](https://img.shields.io/github/stars/badges/shields?style=plastic)
+![GitHub license](https://img.shields.io/github/license/seu-usuario/bookshop?style=plastic)
 
 ## 🎓 **Sobre o Projeto**
 
@@ -66,8 +65,8 @@ Este projeto foi desenvolvido como parte da conclusão do curso de API RESTful, 
 
 Em caso de dúvidas ou sugestões, entre em contato com um dos integrantes do projeto:
 
-- **Samuel Teldison**: [Email](mailto:samuel.teldison@email.com)
-- **Caio Pacheco**: [Email](mailto:caio.pacheco@email.com)
-- **Vinicius Ramos**: [Email](mailto:vinicius.ramos@email.com)
-- **Rafael Januzzi**: [Email](mailto:rafael.januzzi@email.com)
-- **Rafael Guberman**: [Email](mailto:gubermanrafaeltyf@gmail.com)
+- **Samuel Teldison**: [Email](mailto:hometeldison@gmail.com)
+- **Caio Pacheco**: [Email](mailto:caiojunqueirapacheco@gmail.com)
+- **Vinicius Ramos**: [Email](mailto:viniramospimenta@gmail.com)
+- **Rafael Januzzi**: [Email](mailto:rafael_januzi@hotmail.com)
+- **Rafael Guberman**: [Email](mailto:rafaeltyf@gmail.com)
