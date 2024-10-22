@@ -3,7 +3,7 @@ package org.serratec.bookshop.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -11,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,15 +24,18 @@ public class Cliente {
 	private String cpf;
 	private String telefone;
 	private LocalDate anoNascimento;
+	private String cep;
 	
-	@JsonIgnoreProperties
-	@OneToOne(cascade = CascadeType.ALL)
-	private Endereco endereco;
+		
+
 	
-	@OneToMany(mappedBy = "cliente")
+		
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos;
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos;
+	
+	
 	
 	public String getEmail() {
 		return email;
@@ -98,6 +100,18 @@ public class Cliente {
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
+	
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	
+
+	
 	
 	
 	

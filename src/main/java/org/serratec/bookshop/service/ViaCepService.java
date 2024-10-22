@@ -2,9 +2,9 @@ package org.serratec.bookshop.service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-import org.serratec.bookshop.dto.EnderecoDto;
+
+
 import org.serratec.bookshop.model.Endereco;
 import org.serratec.bookshop.viacep.viaCepResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +46,7 @@ public class ViaCepService {
         return endereco;
     }
 
-	public Optional<EnderecoDto> alterarEndereco(Long id, EnderecoDto dto) {
-		return null;
-	}
-
+	
 	public boolean apagarEndereco(Long id) {
 		return false;
 	}

@@ -27,6 +27,20 @@ public class PedidoItem {
 	@JoinColumn(name = "id_livro")
 	private Livro livro;
 	
+//	public void calcularValorBruto() {
+//        this.valorBruto = this.precoVenda * this.quantidade;
+//    }
+//	
+//	public void aplicarDesconto() {
+//        calcularValorBruto(); 
+//        if (this.percentualDesconto != null && this.percentualDesconto > 0) {
+//            double desconto = this.valorBruto * (this.percentualDesconto / 100);
+//            this.valorLiquido = this.valorBruto - desconto; 
+//        } else {
+//            this.valorLiquido = this.valorBruto; 
+//        }
+//    }
+	
 
 	public Long getId() {
 		return id;

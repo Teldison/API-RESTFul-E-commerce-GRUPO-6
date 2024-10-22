@@ -81,4 +81,13 @@ public class Pedido {
 				+ dataEnvio + ", status = " + status + ", valorTotal = R$ " + valorTotal + ", cliente = " + cliente
 				+ ", pedidosItem = " + pedidosItem + "]";
 	}
+	
+//	public void calcularValorTotal() {
+//		this.valorTotal = 0.0;
+//		for (PedidoItem item : pedidosItem) {
+//			this.valorTotal += item.getPrecoVenda() * item.getQuantidade();
+//		}
+//	}
+	
+	
 }

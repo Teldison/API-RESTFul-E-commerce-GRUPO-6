@@ -10,7 +10,8 @@ public record PedidoDto(
 		LocalDate dataEntrega,
 		LocalDate dataEnvio,
 		String status,
-		Double valorTotal
+		Double valorTotal,
+		ClienteDto cliente
 		) {
 		
 	public Pedido toEntity() {
@@ -21,11 +22,23 @@ public record PedidoDto(
 		pedido.setDataEnvio(dataEnvio);
 		pedido.setStatus(this.status);
 		pedido.setValorTotal(this.valorTotal);
+		if (cliente != null) {
+			pedido.setCliente(cliente.toEntity());
+		}
 		return pedido;
 	}
 	
 	public static PedidoDto toDto(Pedido pedido) {
-		return new PedidoDto(pedido.getId(), pedido.getDataPedido(), pedido.getDataEntrega(), pedido.getDataEnvio(), pedido.getStatus(), pedido.getValorTotal());
+		ClienteDto clienteDto = pedido.getCliente() != null ? ClienteDto.toDto(pedido.getCliente()) : null;
+		return new PedidoDto(
+				pedido.getId(),
+				pedido.getDataPedido(),
+				pedido.getDataEntrega(),
+				pedido.getDataEnvio(),
+				pedido.getStatus(), 
+				pedido.getValorTotal(),
+				clienteDto				
+				);
 	}
 
 }
