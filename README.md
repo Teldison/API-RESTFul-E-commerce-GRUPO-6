@@ -3,7 +3,7 @@
 Bem-vindo ao **BookShop**, um e-commerce desenvolvido para a compra e venda de livros digitais, criado como parte do Projeto Final da disciplina de **API RESTful** da **Residência de Software**.
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/badges/shields?style=plastic)
-![GitHub license](https://img.shields.io/github/license/seu-usuario/bookshop?style=plastic)
+![Java Version](https://img.shields.io/badge/Java-17-blue?style=plastic)
 
 ## 🎓 **Sobre o Projeto**
 
