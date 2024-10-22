@@ -25,10 +25,6 @@ public class Cliente {
 	private String telefone;
 	private LocalDate anoNascimento;
 	private String cep;
-	
-		
-
-	
 		
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos;
@@ -85,14 +81,10 @@ public class Cliente {
 		this.id = id;
 	}
 	
-	public List<Endereco> getEnderecos() {
-		return enderecos;
+	public Endereco getEnderecos() {
+		return (Endereco) enderecos;
 	}
 	
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
-
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
@@ -109,11 +101,8 @@ public class Cliente {
 		this.cep = cep;
 	}
 
-	
-
-	
-	
-	
-	
-
+	public void setEnderecos(Endereco entity) {
+		
+		
+	}
 }

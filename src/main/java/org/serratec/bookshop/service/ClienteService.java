@@ -5,40 +5,21 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.bookshop.dto.ClienteDto;
+import org.serratec.bookshop.dto.EnderecoDto;
 import org.serratec.bookshop.model.Cliente;
 import org.serratec.bookshop.model.Endereco;
+import org.serratec.bookshop.model.ViaCep;
 import org.serratec.bookshop.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
 
 @Service 
 public class ClienteService {
 	
 	@Autowired
-	private ViaCepService viaCepService;  
-	
-	@Autowired
 	private ClienteRepository repositorio;
-	
-	public Cliente salvar(Cliente cliente) {
-        
-		if (cliente.getEnderecos() != null && !cliente.getEnderecos().isEmpty()) {
-           
-            Endereco endereco = cliente.getEnderecos().get(0);
-
-            if (endereco.getCep() != null && !endereco.getCep().isEmpty()) {
-                Endereco enderecoFromCep = viaCepService.buscarEnderecoPorCep(endereco.getCep());
-
-               
-                cliente.getEnderecos().add(enderecoFromCep);
-            }
-        }
-
-       
-        return repositorio.save(cliente);
-      
-
-    }
 	
 	public List<ClienteDto> obterTodos() {
 		return repositorio.findAll().stream().map(c -> ClienteDto.toDto(c)).toList();
@@ -49,6 +30,24 @@ public class ClienteService {
 			return Optional.empty();
 		}
 		return Optional.of(ClienteDto.toDto(repositorio.findById(id).get()));
+	}
+	
+	public ClienteDto aplicarApiCep(ClienteDto dto) {
+		String json = ViaCepService.(dto.toEntity().getEnderecos().getCep());
+        ViaCep ViaCep = new Gson().fromJson(json, ViaCep.class);
+
+        Endereco endereco = new Endereco();
+        endereco.setCep(dto.toEntity().getEnderecos().getCep());
+        endereco.setRua(ViaCep.rua());
+        endereco.setBairro(ViaCep.bairro());
+        endereco.setCidade(ViaCep.cidade());
+        endereco.setUf(ViaCep.uf());
+        endereco.setNumero(dto.toEntity().getEnderecos().getNumero());
+        endereco.setComplemento(dto.toEntity().getEnderecos().getComplemento());
+
+        Cliente cliente = dto.toEntity();
+        cliente.setEnderecos(endereco);
+        return ClienteDto.toDto(cliente);
 	}
 	
 	public ClienteDto salvarCliente(ClienteDto dto) {

@@ -18,7 +18,7 @@ public class Endereco {
 		private String rua;
 		private String bairro;
 		private String cidade;
-		private Double numero;
+		private String numero;
 		private String complemento;
 		private String uf;
 		
@@ -56,10 +56,11 @@ public class Endereco {
 		public void setCidade(String cidade) {
 			this.cidade = cidade;
 		}
-		public Double getNumero() {
+		public String getNumero() {
 			return numero;
 		}
-		public void setNumero(Double numero) {
+		
+		public void setNumero(String numero) {
 			this.numero = numero;
 		}
 		public String getComplemento() {
@@ -83,7 +84,6 @@ public class Endereco {
 			this.cliente = cliente;
 		}
 		public Object toEntity() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 		
