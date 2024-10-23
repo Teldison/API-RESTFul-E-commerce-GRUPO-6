@@ -1,18 +1,21 @@
 package org.serratec.bookshop.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.serratec.bookshop.dto.PedidoDto;
+import org.serratec.bookshop.dto.PedidoItemDto;
+import org.serratec.bookshop.dto.PedidoRegistroDto;
 import org.serratec.bookshop.model.Cliente;
+import org.serratec.bookshop.model.Livro;
 import org.serratec.bookshop.model.Pedido;
 import org.serratec.bookshop.model.PedidoItem;
 import org.serratec.bookshop.repository.ClienteRepository;
+import org.serratec.bookshop.repository.LivroRepository;
 import org.serratec.bookshop.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class PedidoService {
@@ -21,6 +24,9 @@ public class PedidoService {
 	
 	@Autowired
     private ClienteRepository clienteRepository; 
+	
+	@Autowired
+	private LivroRepository livroRepository;
 	
 	@Autowired
 	private EmailService emailService;
@@ -35,17 +41,32 @@ public class PedidoService {
 		} return Optional.of(PedidoDto.toDto( pedidoRepository.findById(id).get()));
 	}
 	
-	 public PedidoDto salvarPedido(PedidoDto pedidoDto) {
-	        Pedido pedido = pedidoDto.toEntity();
+	 public PedidoDto salvarPedido(PedidoRegistroDto pedidoDto) {
+		 	if (!clienteRepository.existsById(pedidoDto.getClienteId())) {
+		 		throw new IllegalArgumentException("Cliente não encontrado");
+		 	}
+		 	
+		 	List<PedidoItem> itens = new ArrayList<>();
+		 	
+		 	for (PedidoItemDto p : pedidoDto.getItens())
+		 	{
+		 		if (!livroRepository.existsById(p.livroId())) {
+		 			throw new IllegalArgumentException("Livro não encontrado");
+		 		}
+		 		
+		 		Livro livro = livroRepository.findById(p.livroId()).get();
+		 		
+		 		
+		 		
+			}
+		 	
+	        Pedido pedido = new Pedido();
+	        pedido.setPedidosItem(itens);
 	        
-	        if (pedido.getCliente() != null && pedido.getCliente().getId() != null) {
-	            Cliente cliente = clienteRepository.findById(pedido.getCliente().getId())
-	                    .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-	            pedido.setCliente(cliente); 
-	        }
-	        
-	        calcularValoresPedido(pedido); // Chama o método para calcular os valores do pedido
-
+//	       
+//	        
+//	        calcularValoresPedido(pedido); // Chama o método para calcular os valores do pedido
+//
 	        pedido = pedidoRepository.save(pedido);
 	        emailService.enviarEmail("caiojunqueirapacheco@gmail.com", "Novo pedido", pedido.toString());
 	        return PedidoDto.toDto(pedido);

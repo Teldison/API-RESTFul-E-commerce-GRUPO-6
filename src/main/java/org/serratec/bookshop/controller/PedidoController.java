@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.bookshop.dto.PedidoDto;
+import org.serratec.bookshop.dto.PedidoRegistroDto;
 import org.serratec.bookshop.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,7 @@ public class PedidoController {
             @ApiResponse(responseCode = "200", description = "Pedido registrado")
     })
 	@ResponseStatus(HttpStatus.CREATED)
-	public PedidoDto criarPedido(@RequestBody PedidoDto pedido) {
+	public PedidoDto criarPedido(@RequestBody PedidoRegistroDto pedido) {
 		return pedidoService.salvarPedido(pedido);
 	}
 	
