@@ -115,9 +115,9 @@ public class PedidoService {
 
 	            item.setValorBruto(valorBruto);
 	            item.setValorLiquido(valorLiquido);
-	            valorTotal += valorLiquido; // Soma os valores líquidos para o total do pedido
+	            valorTotal += valorLiquido; 
 	        }
 
-	        pedido.setValorTotal(valorTotal); // Armazena o valor total do pedido
+	        pedido.setValorTotal(valorTotal); 
 	    }
 }
