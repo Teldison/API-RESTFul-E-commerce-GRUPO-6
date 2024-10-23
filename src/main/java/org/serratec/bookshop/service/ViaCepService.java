@@ -1,9 +1,18 @@
 package org.serratec.bookshop.service;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+
 import org.serratec.bookshop.dto.EnderecoDto;
 import org.serratec.bookshop.model.Endereco;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
 
 @Service
 public class ViaCepService {
@@ -19,6 +28,20 @@ public class ViaCepService {
         		endereco.getRua(), endereco.getBairro(),
         	    endereco.getCidade(), endereco.getNumero(),
         	    endereco.getComplemento(), endereco.getUf());
+        
         return enderecoDto;
+    }
+    
+    public static String pegarEndereco(String cep) throws IOException, InterruptedException {
+    	URI uri = URI.create("https://viacep.com.br/ws/" + cep + "/json/");
+    	
+    	HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+		         .uri(uri)
+		         .build();
+		HttpResponse<String> response = client
+				 .send(request, BodyHandlers.ofString());   
+		String json = response.body();
+		return json;
     }
 }

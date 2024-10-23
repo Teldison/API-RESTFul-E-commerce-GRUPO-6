@@ -1,11 +1,11 @@
 package org.serratec.bookshop.service;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.serratec.bookshop.dto.ClienteDto;
-import org.serratec.bookshop.dto.EnderecoDto;
 import org.serratec.bookshop.model.Cliente;
 import org.serratec.bookshop.model.Endereco;
 import org.serratec.bookshop.model.ViaCep;
@@ -32,26 +32,28 @@ public class ClienteService {
 		return Optional.of(ClienteDto.toDto(repositorio.findById(id).get()));
 	}
 	
-	public ClienteDto aplicarApiCep(ClienteDto dto) {
-		String json = ViaCepService.(dto.toEntity().getEnderecos().getCep());
-        ViaCep ViaCep = new Gson().fromJson(json, ViaCep.class);
+	public ClienteDto utilizarCepApi(ClienteDto dto) throws IOException, InterruptedException {
+		String cep = dto.toEntity().getCep();
+		String json = ViaCepService.pegarEndereco(cep);
+        ViaCep viaCep = new Gson().fromJson(json.toString(), ViaCep.class);
 
         Endereco endereco = new Endereco();
-        endereco.setCep(dto.toEntity().getEnderecos().getCep());
-        endereco.setRua(ViaCep.rua());
-        endereco.setBairro(ViaCep.bairro());
-        endereco.setCidade(ViaCep.cidade());
-        endereco.setUf(ViaCep.uf());
-        endereco.setNumero(dto.toEntity().getEnderecos().getNumero());
-        endereco.setComplemento(dto.toEntity().getEnderecos().getComplemento());
+        endereco.setCep(dto.cep());
+        endereco.setRua(viaCep.rua());
+        endereco.setBairro(viaCep.bairro());
+        endereco.setCidade(viaCep.cidade());
+        endereco.setUf(viaCep.uf());
+        endereco.setNumero(dto.endereco().numero());
+        endereco.setComplemento(dto.endereco().complemento());
 
         Cliente cliente = dto.toEntity();
-        cliente.setEnderecos(endereco);
+        cliente.setEndereco(endereco);
         return ClienteDto.toDto(cliente);
 	}
 	
-	public ClienteDto salvarCliente(ClienteDto dto) {
-		Cliente clienteEntity = repositorio.save(dto.toEntity());
+	public ClienteDto salvarCliente(ClienteDto dto) throws IOException, InterruptedException {
+		ClienteDto cliente = utilizarCepApi(dto);
+		Cliente clienteEntity = repositorio.save(cliente.toEntity());
 		return ClienteDto.toDto(clienteEntity);
 	}	
 		

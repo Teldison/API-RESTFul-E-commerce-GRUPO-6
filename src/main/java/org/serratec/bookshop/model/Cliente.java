@@ -6,11 +6,14 @@ import java.util.List;
 
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,15 +26,15 @@ public class Cliente {
 	private String nome_completo;
 	private String cpf;
 	private String telefone;
+	@Column(name = "data_nascimento")
 	private LocalDate anoNascimento;
 	private String cep;
 		
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-	private List<Endereco> enderecos;
+	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_endereco")
+	private Endereco endereco;
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos;
-	
-	
 	
 	public String getEmail() {
 		return email;
@@ -81,8 +84,12 @@ public class Cliente {
 		this.id = id;
 	}
 	
-	public Endereco getEnderecos() {
-		return (Endereco) enderecos;
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 	
 	public List<Pedido> getPedidos() {
@@ -101,8 +108,5 @@ public class Cliente {
 		this.cep = cep;
 	}
 
-	public void setEnderecos(Endereco entity) {
-		
-		
-	}
+
 }

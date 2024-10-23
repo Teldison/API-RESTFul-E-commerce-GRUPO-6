@@ -11,6 +11,7 @@ public record ClienteDto(
 		String cpf,
 		String telefone,
 		LocalDate anoNascimento,
+		String cep,
 		EnderecoDto endereco
 		) {
 	
@@ -22,7 +23,8 @@ public record ClienteDto(
 		cliente.setCpf(this.cpf);
 		cliente.setTelefone(this.telefone);
 		cliente.setAnoNascimento(this.anoNascimento);
-		cliente.setEnderecos(this.endereco.toEntity());
+		cliente.setCep(this.cep);
+		cliente.setEndereco(this.endereco.toEntity());
 		return cliente;
 	}
 	
@@ -30,7 +32,6 @@ public record ClienteDto(
 		return new ClienteDto(cliente.getId(),cliente.getEmail(),
 				cliente.getNome_completo(),cliente.getCpf(),
 				cliente.getTelefone(),cliente.getAnoNascimento(),
-				EnderecoDto.toDto(cliente.getEnderecos()));
-		
+				cliente.getCep(), EnderecoDto.toDto(cliente.getEndereco()));
 	}
 }

@@ -34,6 +34,7 @@ public class EnderecoService {
 	
 
 	public List<Endereco> obterPorCep(String cep) {
+		
 		List<Endereco> enderecos =  repositorio.findAll();
 		List<Endereco> enderecosCep = new ArrayList<>();
 		for (Endereco endereco : enderecos) {

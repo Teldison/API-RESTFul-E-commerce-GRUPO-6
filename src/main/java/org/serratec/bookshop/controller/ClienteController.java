@@ -1,5 +1,6 @@
 package org.serratec.bookshop.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,7 +70,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "200", description = "Cliente registrado")
     })
 	@ResponseStatus(HttpStatus.CREATED)
-	public ClienteDto cadastrarPedido(@RequestBody ClienteDto dto) {
+	public ClienteDto cadastrarPedido(@RequestBody ClienteDto dto) throws IOException, InterruptedException {
 		return servico.salvarCliente(dto);
 	}
 	
