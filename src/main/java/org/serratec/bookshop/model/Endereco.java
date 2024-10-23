@@ -22,10 +22,6 @@ public class Endereco {
 	private String complemento;
 	private String uf;
 
-	@OneToOne
-	@JoinColumn(name = "id_cliente")
-	private Cliente cliente;
-
 	public Long getId() {
 		return id;
 	}
@@ -88,14 +84,6 @@ public class Endereco {
 
 	public void setUf(String uf) {
 		this.uf = uf;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
 	}
 
 	public Object toEntity() {

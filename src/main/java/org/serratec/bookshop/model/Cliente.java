@@ -30,9 +30,10 @@ public class Cliente {
 	private LocalDate anoNascimento;
 	private String cep;
 		
-	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
+	
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos;
 	
@@ -97,6 +98,7 @@ public class Cliente {
 	}
 
 	public void setPedidos(List<Pedido> pedidos) {
+		pedidos.forEach(p -> p.setCliente(this));
 		this.pedidos = pedidos;
 	}
 	

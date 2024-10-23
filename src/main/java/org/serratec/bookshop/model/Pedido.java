@@ -3,6 +3,7 @@ package org.serratec.bookshop.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class Pedido {
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<PedidoItem> pedidosItem;
 	
 	public Long getId() {
@@ -84,6 +85,7 @@ public class Pedido {
 		return pedidosItem;
 	}
 	public void setPedidosItem(List<PedidoItem> pedidosItem) {
+		pedidosItem.forEach(p -> p.setPedido(this));
 		this.pedidosItem = pedidosItem;
 	}
 }

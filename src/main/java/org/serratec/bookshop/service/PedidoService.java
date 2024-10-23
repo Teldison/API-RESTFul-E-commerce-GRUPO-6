@@ -46,6 +46,8 @@ public class PedidoService {
 		 		throw new IllegalArgumentException("Cliente não encontrado");
 		 	}
 		 	
+		 	Pedido pedido = new Pedido();
+		 	pedido.setCliente(clienteRepository.findById(pedidoDto.getClienteId()).get());
 		 	List<PedidoItem> itens = new ArrayList<>();
 		 	
 		 	for (PedidoItemDto p : pedidoDto.getItens())
@@ -55,18 +57,27 @@ public class PedidoService {
 		 		}
 		 		
 		 		Livro livro = livroRepository.findById(p.livroId()).get();
-		 		
-		 		
-		 		
+		 		PedidoItem pedidoItem = new PedidoItem();
+		 		pedidoItem.setLivro(livro);
+		 		pedidoItem.setPrecoVenda(livro.getValor_unitario());
+		 		pedidoItem.setQuantidade(p.quantidade());
+		 		pedidoItem.setPercentualDesconto(p.percentualDesconto());
+		 		Double valorBruto = livro.getValor_unitario() * p.quantidade(); 
+		 		pedidoItem.setValorBruto(valorBruto);
+		 		pedidoItem.setValorLiquido(valorBruto - (valorBruto / 100 * p.percentualDesconto()));
+		 		itens.add(pedidoItem);	
 			}
 		 	
-	        Pedido pedido = new Pedido();
+	        pedido.setDataPedido(pedidoDto.getDataPedido());
+	        pedido.setDataEnvio(pedidoDto.getDataPedido().plusDays(2));
+	        pedido.setDataEntrega(pedidoDto.getDataEntrega());
+	        pedido.setStatus("Pedido em andamento");
 	        pedido.setPedidosItem(itens);
+	        Double valorTotal = itens.stream()
+	                .mapToDouble(PedidoItem::getValorLiquido) 
+	                .sum();
+	        pedido.setValorTotal(valorTotal);
 	        
-//	       
-//	        
-//	        calcularValoresPedido(pedido); // Chama o método para calcular os valores do pedido
-//
 	        pedido = pedidoRepository.save(pedido);
 	        emailService.enviarEmail("caiojunqueirapacheco@gmail.com", "Novo pedido", pedido.toString());
 	        return PedidoDto.toDto(pedido);
