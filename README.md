@@ -1,4 +1,11 @@
-# 📚 **BookShop - E-commerce de Livros Digitais**
+<div align="center">
+  <h1>📚 BookShop - E-commerce de Livros Digitais</h1>
+</div>
+
+
+<p align="center">
+  <img src="Logo BookShop.jpeg" alt="" width="300">
+</p>
 
 Bem-vindo ao **BookShop**, um e-commerce desenvolvido para a compra e venda de livros digitais, criado como parte do Projeto Final da disciplina de **API RESTful** da **Residência de Software**.
 
