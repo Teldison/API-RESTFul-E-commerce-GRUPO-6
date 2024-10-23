@@ -97,7 +97,12 @@ public class PedidoItem {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
-	
-	
 
+	public Livro getLivro() {
+		return livro;
+	}
+
+	public void setLivro(Livro livro) {
+		this.livro = livro;
+	}
 }
