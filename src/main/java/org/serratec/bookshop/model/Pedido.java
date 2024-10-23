@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pedido")
-public class Pedido {
+public class Pedido extends Livro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -30,7 +30,6 @@ public class Pedido {
 	
 	@OneToMany(mappedBy = "pedido")
 	private List<PedidoItem> pedidosItem;
-	
 	
 	public Long getId() {
 		return id;
@@ -81,13 +80,10 @@ public class Pedido {
 				+ dataEnvio + ", status = " + status + ", valorTotal = R$ " + valorTotal + ", cliente = " + cliente
 				+ ", pedidosItem = " + pedidosItem + "]";
 	}
-	
+}
 //	public void calcularValorTotal() {
 //		this.valorTotal = 0.0;
 //		for (PedidoItem item : pedidosItem) {
 //			this.valorTotal += item.getPrecoVenda() * item.getQuantidade();
 //		}
 //	}
-	
-	
-}

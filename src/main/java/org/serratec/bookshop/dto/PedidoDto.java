@@ -11,9 +11,10 @@ public record PedidoDto(
 		LocalDate dataEnvio,
 		String status,
 		Double valorTotal,
-		ClienteDto cliente
+		ClienteDto cliente,
+		LivroDto livro
 		) {
-		
+	
 	public Pedido toEntity() {
 		Pedido pedido = new Pedido();
 		pedido.setId(this.id);
@@ -22,6 +23,7 @@ public record PedidoDto(
 		pedido.setDataEnvio(dataEnvio);
 		pedido.setStatus(this.status);
 		pedido.setValorTotal(this.valorTotal);
+		pedido.setLivro(livro.toEntity());
 		if (cliente != null) {
 			pedido.setCliente(cliente.toEntity());
 		}
@@ -40,5 +42,4 @@ public record PedidoDto(
 				clienteDto				
 				);
 	}
-
 }

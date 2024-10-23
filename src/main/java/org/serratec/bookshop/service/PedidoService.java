@@ -5,9 +5,11 @@ import java.util.Optional;
 
 
 import org.serratec.bookshop.dto.PedidoDto;
+import org.serratec.bookshop.dto.RegistroPedidoDto;
 import org.serratec.bookshop.model.Cliente;
 import org.serratec.bookshop.model.Pedido;
 import org.serratec.bookshop.repository.ClienteRepository;
+import org.serratec.bookshop.repository.LivroRepository;
 import org.serratec.bookshop.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,22 +17,59 @@ import org.springframework.stereotype.Service;
 @Service
 public class PedidoService {
 	@Autowired
-	private PedidoRepository repositorio;
+	private PedidoRepository pedidoRepository;
 	
 	@Autowired
     private ClienteRepository clienteRepository; 
 	
 	@Autowired
+	private LivroRepository livroRepository;
+	
+	@Autowired
 	private EmailService emailService;
 	
 	public List<PedidoDto> obterTodos() {
-		return repositorio.findAll().stream().map(p->PedidoDto.toDto(p)).toList();
+		return  pedidoRepository.findAll().stream().map(p->PedidoDto.toDto(p)).toList();
 	}
 	
 	public Optional<PedidoDto> obterPorId(Long id) {
-		if(!repositorio.existsById(id)) {
+		if(! pedidoRepository.existsById(id)) {
 			return Optional.empty();
-		} return Optional.of(PedidoDto.toDto(repositorio.findById(id).get()));
+		} return Optional.of(PedidoDto.toDto( pedidoRepository.findById(id).get()));
+	}
+	
+	public RegistroPedidoDto calcularPedido(RegistroPedidoDto dto) {
+		
+		double valorTotal = 0;
+		double valorBruto = 0;
+		double valorLiquido = 0;
+		Pedido pedido = dto.toEntity(livroRepository);
+				
+		int i = 0;
+		for (RegistroPedidoDto rp : pedido.getLivro().stream().map(RegistroPedidoDto::toDto).toList()) {
+		    pedidoService.obterPorId(rp.getProdutoId()).ifPresent(livro -> {
+		        double valorBruto = livro.getValorUnitario() * rp.getQuantidade();
+		        rp.setValorBruto(valorBruto);
+
+		        double percentualDesconto = ip.getPercentualDesconto() / 100.0;
+		        double valorDesconto = valorBruto * percentualDesconto;
+
+		        double valorLiquido = valorBruto - valorDesconto;
+		        ip.setValorLiquido(valorLiquido);
+
+		        valorTotal += valorLiquido;
+
+		        ItemPedidoDtoCadastroPedido itemDto = dto.getItensPedido().get(i);
+		        itemDto.setValorBruto(valorBruto);
+		        itemDto.setValorLiquido(valorLiquido);
+		        itemDto.setPrecoVenda(produto.getValorUnitario());
+
+		        i++;
+		    }dto.setValorTotal(valorTotal);
+			pedido.setValorTotal(valorTotal);
+			return dto;
+		}
+		
 	}
 	
 	public PedidoDto salvarPedido(PedidoDto pedidoDto) {
@@ -40,24 +79,24 @@ public class PedidoService {
 	                          .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
 	        pedido.setCliente(cliente); 
 	    }
-	    pedido = repositorio.save(pedido);
+	    pedido =  pedidoRepository.save(pedido);
 	    emailService.enviarEmail("caiojunqueirapacheco@gmail.com", "Novo pedido", pedido.toString());
 	    return PedidoDto.toDto(pedido);
 	}
 	
 	public boolean apagarPedido(Long id) {
-		if(!repositorio.existsById(id)) {
+		if(! pedidoRepository.existsById(id)) {
 			return false;
-		} repositorio.deleteById(id);
+		} pedidoRepository.deleteById(id);
 		return true;
 	}
 	
 	public Optional<PedidoDto> alterarPedido(Long id, PedidoDto dto) {
-		if(!repositorio.existsById(id)) {
+		if(! pedidoRepository.existsById(id)) {
 			return Optional.empty();
 		} Pedido pedidoEntity = dto.toEntity();
 		  pedidoEntity.setId(id);
-		  repositorio.save(pedidoEntity);
+		  pedidoRepository.save(pedidoEntity);
 		  return Optional.of(PedidoDto.toDto(pedidoEntity));
 	}
 	
