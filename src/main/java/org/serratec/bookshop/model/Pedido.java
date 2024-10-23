@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pedido")
-public class Pedido extends Livro {
+public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -79,6 +79,12 @@ public class Pedido extends Livro {
 		return "Pedido = " + id + ", dataPedido = " + dataPedido + ", dataEntrega = " + dataEntrega + ", dataEnvio = "
 				+ dataEnvio + ", status = " + status + ", valorTotal = R$ " + valorTotal + ", cliente = " + cliente
 				+ ", pedidosItem = " + pedidosItem + "]";
+	}
+	public List<PedidoItem> getPedidosItem() {
+		return pedidosItem;
+	}
+	public void setPedidosItem(List<PedidoItem> pedidosItem) {
+		this.pedidosItem = pedidosItem;
 	}
 }
 //	public void calcularValorTotal() {

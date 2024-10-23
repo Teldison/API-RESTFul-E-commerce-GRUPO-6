@@ -3,16 +3,16 @@ package org.serratec.bookshop.service;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.serratec.bookshop.dto.PedidoDto;
-import org.serratec.bookshop.dto.RegistroPedidoDto;
 import org.serratec.bookshop.model.Cliente;
 import org.serratec.bookshop.model.Pedido;
+import org.serratec.bookshop.model.PedidoItem;
 import org.serratec.bookshop.repository.ClienteRepository;
-import org.serratec.bookshop.repository.LivroRepository;
 import org.serratec.bookshop.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class PedidoService {
@@ -21,9 +21,6 @@ public class PedidoService {
 	
 	@Autowired
     private ClienteRepository clienteRepository; 
-	
-	@Autowired
-	private LivroRepository livroRepository;
 	
 	@Autowired
 	private EmailService emailService;
@@ -38,52 +35,22 @@ public class PedidoService {
 		} return Optional.of(PedidoDto.toDto( pedidoRepository.findById(id).get()));
 	}
 	
-	public RegistroPedidoDto calcularPedido(RegistroPedidoDto dto) {
-		
-		double valorTotal = 0;
-		double valorBruto = 0;
-		double valorLiquido = 0;
-		Pedido pedido = dto.toEntity(livroRepository);
-				
-		int i = 0;
-		for (RegistroPedidoDto rp : pedido.getLivro().stream().map(RegistroPedidoDto::toDto).toList()) {
-		    pedidoService.obterPorId(rp.getProdutoId()).ifPresent(livro -> {
-		        double valorBruto = livro.getValorUnitario() * rp.getQuantidade();
-		        rp.setValorBruto(valorBruto);
+	 public PedidoDto salvarPedido(PedidoDto pedidoDto) {
+	        Pedido pedido = pedidoDto.toEntity();
+	        
+	        if (pedido.getCliente() != null && pedido.getCliente().getId() != null) {
+	            Cliente cliente = clienteRepository.findById(pedido.getCliente().getId())
+	                    .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+	            pedido.setCliente(cliente); 
+	        }
+	        
+	        calcularValoresPedido(pedido); // Chama o método para calcular os valores do pedido
 
-		        double percentualDesconto = ip.getPercentualDesconto() / 100.0;
-		        double valorDesconto = valorBruto * percentualDesconto;
-
-		        double valorLiquido = valorBruto - valorDesconto;
-		        ip.setValorLiquido(valorLiquido);
-
-		        valorTotal += valorLiquido;
-
-		        ItemPedidoDtoCadastroPedido itemDto = dto.getItensPedido().get(i);
-		        itemDto.setValorBruto(valorBruto);
-		        itemDto.setValorLiquido(valorLiquido);
-		        itemDto.setPrecoVenda(produto.getValorUnitario());
-
-		        i++;
-		    }dto.setValorTotal(valorTotal);
-			pedido.setValorTotal(valorTotal);
-			return dto;
-		}
-		
-	}
-	
-	public PedidoDto salvarPedido(PedidoDto pedidoDto) {
-	    Pedido pedido = pedidoDto.toEntity();
-	    if (pedido.getCliente() != null && pedido.getCliente().getId() != null) {
-	        Cliente cliente = clienteRepository.findById(pedido.getCliente().getId())
-	                          .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
-	        pedido.setCliente(cliente); 
+	        pedido = pedidoRepository.save(pedido);
+	        emailService.enviarEmail("caiojunqueirapacheco@gmail.com", "Novo pedido", pedido.toString());
+	        return PedidoDto.toDto(pedido);
 	    }
-	    pedido =  pedidoRepository.save(pedido);
-	    emailService.enviarEmail("caiojunqueirapacheco@gmail.com", "Novo pedido", pedido.toString());
-	    return PedidoDto.toDto(pedido);
-	}
-	
+
 	public boolean apagarPedido(Long id) {
 		if(! pedidoRepository.existsById(id)) {
 			return false;
@@ -100,11 +67,25 @@ public class PedidoService {
 		  return Optional.of(PedidoDto.toDto(pedidoEntity));
 	}
 	
-	public class ResourceNotFoundException extends RuntimeException {
-	    public ResourceNotFoundException(String message) {
-	        super(message);
+	 private void calcularValoresPedido(Pedido pedido) {
+	        double valorTotal = 0.0;
+
+	        for (PedidoItem item : pedido.getPedidosItem()) {
+	            double valorBruto = item.getPrecoVenda() * item.getQuantidade();
+	            double valorLiquido;
+
+	            if (item.getPercentualDesconto() != null && item.getPercentualDesconto() > 0) {
+	                double desconto = valorBruto * (item.getPercentualDesconto() / 100);
+	                valorLiquido = valorBruto - desconto;
+	            } else {
+	                valorLiquido = valorBruto; 
+	            }
+
+	            item.setValorBruto(valorBruto);
+	            item.setValorLiquido(valorLiquido);
+	            valorTotal += valorLiquido; // Soma os valores líquidos para o total do pedido
+	        }
+
+	        pedido.setValorTotal(valorTotal); // Armazena o valor total do pedido
 	    }
-	}
-	
-	
 }
