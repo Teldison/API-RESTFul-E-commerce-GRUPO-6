@@ -78,8 +78,8 @@ public class Pedido {
 	@Override
 	public String toString() {
 		return "Pedido = " + id + ", dataPedido = " + dataPedido + ", dataEntrega = " + dataEntrega + ", dataEnvio = "
-				+ dataEnvio + ", status = " + status + ", valorTotal = R$ " + valorTotal + ", cliente = " + cliente
-				+ ", pedidosItem = " + pedidosItem + "]";
+				+ dataEnvio + ", status = " + status + ", valorTotal = R$ " + valorTotal + ", cliente = " + cliente.getNome_completo()
+				+ ", itens do pedido = " + pedidosItem.size();
 	}
 	public List<PedidoItem> getPedidosItem() {
 		return pedidosItem;
