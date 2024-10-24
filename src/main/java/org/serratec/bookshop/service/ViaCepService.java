@@ -12,8 +12,6 @@ import org.serratec.bookshop.model.Endereco;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.Gson;
-
 @Service
 public class ViaCepService {
 
