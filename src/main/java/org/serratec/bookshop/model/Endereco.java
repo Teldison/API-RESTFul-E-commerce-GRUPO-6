@@ -87,7 +87,7 @@ public class Endereco {
 	}
 
 	public Object toEntity() {
-		return null;
+		return toEntity();
 	}
 
 }

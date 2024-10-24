@@ -65,12 +65,17 @@ public class ClienteService {
 		return true;
 	}
 	
-	public Optional<ClienteDto> alterarCliente(Long id, ClienteDto dto) {
+	public Optional<ClienteDto> alterarCliente(Long id, ClienteDto dto) throws IOException, InterruptedException {
+		ClienteDto cliente = utilizarCepApi(dto);
 		if(!repositorio.existsById(id)) {
 			return Optional.empty();
 		}
-		Cliente clienteEntity = dto.toEntity();
-		clienteEntity.setId(id);
+		Cliente clienteEntity = repositorio.findById(id).orElseThrow();
+		clienteEntity.setNome_completo(cliente.nome_completo());
+		clienteEntity.setCpf(cliente.cpf());
+		clienteEntity.setAnoNascimento(cliente.anoNascimento());
+		clienteEntity.setEndereco(cliente.endereco().toEntity());
+		Cliente clienteSalvo = repositorio.save(clienteEntity);
 		repositorio.save(clienteEntity);
 		return Optional.of(ClienteDto.toDto(clienteEntity));
 	}

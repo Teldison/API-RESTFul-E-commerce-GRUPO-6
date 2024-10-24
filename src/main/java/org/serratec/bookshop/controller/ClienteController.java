@@ -95,7 +95,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Não foi alterado o Cliente desejado. Verifique!"),
             @ApiResponse(responseCode = "200", description = "Cliente alterado")
     })
-	public ResponseEntity<ClienteDto> alterarCliente(@PathVariable Long id, @RequestBody ClienteDto dto){
+	public ResponseEntity<ClienteDto> alterarCliente(@PathVariable Long id, @RequestBody ClienteDto dto) throws IOException, InterruptedException{
 		Optional<ClienteDto> clienteAlterado = servico.alterarCliente(id, dto);
 		if (!clienteAlterado.isPresent()) {
 			return ResponseEntity.notFound().build();
